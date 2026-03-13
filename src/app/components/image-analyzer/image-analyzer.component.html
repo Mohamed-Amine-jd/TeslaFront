@@ -1,0 +1,82 @@
+<div class="analyzer-container">
+  <div class="header">
+    <h1>🚗 Scanner Carte Grise</h1>
+    <p>Scannez votre carte grise pour extraire les informations du véhicule</p>
+  </div>
+
+  <!-- Zone upload -->
+  <div
+    class="upload-zone"
+    [class.drag-over]="isDragOver()"
+    [class.has-image]="previewUrl()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave()"
+    (drop)="onDrop($event)"
+    (click)="fileInput.click()"
+  >
+    @if (!previewUrl()) {
+      <div class="upload-placeholder">
+        <div class="upload-icon">📄</div>
+        <p class="upload-text">Glissez la photo de votre carte grise ici</p>
+        <p class="upload-hint">ou cliquez pour sélectionner (PNG, JPG, max 10MB)</p>
+      </div>
+    } @else {
+      <img [src]="previewUrl()" alt="Carte grise" class="preview-image" />
+    }
+  </div>
+
+  <input #fileInput type="file" accept="image/*" hidden (change)="onFileSelected($event)" />
+
+  <!-- Boutons -->
+  <div class="actions">
+    @if (selectedFile()) {
+      <button class="btn btn-secondary" (click)="reset()">🔄 Nouvelle image</button>
+    }
+    <button
+      class="btn btn-primary"
+      [disabled]="!selectedFile() || isLoading()"
+      (click)="analyzeImage()"
+    >
+      @if (isLoading()) {
+        <span class="spinner"></span> Analyse en cours...
+      } @else {
+        🔍 Scanner la carte grise
+      }
+    </button>
+  </div>
+
+  <!-- Résultat carte grise -->
+  @if (carteGrise()) {
+    <div class="result-card">
+      <div class="result-header">
+        <span class="result-icon">✅</span>
+        <h2>Informations extraites</h2>
+      </div>
+      <div class="result-body">
+        <div class="info-row">
+          <div class="info-label">
+            <span class="label-icon">🔢</span>
+            Numéro d'immatriculation
+          </div>
+          <div class="info-value">{{ carteGrise()!.immatriculation }}</div>
+        </div>
+        <div class="divider"></div>
+        <div class="info-row">
+          <div class="info-label">
+            <span class="label-icon">🔩</span>
+            Numéro de châssis (VIN)
+          </div>
+          <div class="info-value">{{ carteGrise()!.chassis }}</div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Erreur -->
+  @if (errorMessage()) {
+    <div class="error-card">
+      <span>⚠️</span>
+      <p>{{ errorMessage() }}</p>
+    </div>
+  }
+</div>
