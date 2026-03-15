@@ -1,0 +1,27 @@
+<div class="hero-container">
+  <nav class="navbar">
+    <div class="logo">TESLA</div>
+    <ul class="nav-links">
+      <li><a href="#">Model S</a></li>
+      <li><a href="#">Model 3</a></li>
+      <li><a href="#">Model X</a></li>
+      <li><a href="#">Model Y</a></li>
+    </ul>
+  </nav>
+
+  <video
+    #bgVideo
+    [src]="videos[currentVideoIndex]"
+    [class.fade-out]="isFading"
+    (ended)="onVideoEnded()"
+    autoplay
+    muted
+    playsinline
+    class="bg-video">
+  </video>
+
+  <div class="overlay-text">
+    <h1>Experience the Future</h1>
+    <p>Seamless power. Sustainable energy.</p>
+  </div>
+</div>
