@@ -1,0 +1,91 @@
+<div class="login-container">
+
+  <!-- Header Tesla -->
+  <div class="tesla-header">
+    <h1 class="tesla-logo">TESLA</h1>
+    <p class="tesla-subtitle">Accès propriétaire par carte grise</p>
+  </div>
+
+  <!-- Card principale -->
+  <div class="login-card">
+    <h2>🔑 Connexion</h2>
+    <p class="description">
+      Scannez votre carte grise pour vous connecter automatiquement
+    </p>
+
+    <!-- Zone upload -->
+    <div
+      class="upload-zone"
+      [class.drag-over]="isDragOver()"
+      [class.has-image]="previewUrl()"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave()"
+      (drop)="onDrop($event)"
+      (click)="fileInput.click()"
+    >
+      @if (!previewUrl()) {
+        <div class="upload-placeholder">
+          <div class="upload-icon">📄</div>
+          <p>Glissez votre carte grise ici</p>
+          <span>ou cliquez pour sélectionner (PNG, JPG, max 10MB)</span>
+        </div>
+      } @else {
+        <img [src]="previewUrl()" alt="Carte grise" class="preview-image"/>
+      }
+    </div>
+
+    <input
+      #fileInput
+      type="file"
+      accept="image/*"
+      hidden
+      (change)="onFileSelected($event)"
+    />
+
+    <!-- Données extraites -->
+    @if (extractedData()) {
+      <div class="extracted-info">
+        <p>🔢 Matricule : <strong>{{ extractedData()!.matricule }}</strong></p>
+        <p>🔩 Châssis   : <strong>{{ extractedData()!.chassis }}</strong></p>
+      </div>
+    }
+
+    <!-- Erreur -->
+    @if (errorMessage()) {
+      <div class="error-box">
+        <span>⚠️</span>
+        <p>{{ errorMessage() }}</p>
+      </div>
+    }
+
+    <!-- Succès -->
+    @if (successMessage()) {
+      <div class="success-box">
+        <span>✅</span>
+        <p>{{ successMessage() }}</p>
+      </div>
+    }
+
+    <!-- Boutons -->
+    <div class="actions">
+      @if (selectedFile()) {
+        <button class="btn-reset" (click)="reset()">
+          🔄 Nouvelle image
+        </button>
+      }
+      <button
+        class="btn-login"
+        [disabled]="!selectedFile() || isLoading()"
+        (click)="login()"
+      >
+        @if (isLoading()) {
+          <span class="spinner"></span>
+          Analyse en cours...
+        } @else {
+          🚗 Se connecter avec ma carte grise
+        }
+      </button>
+    </div>
+
+  </div>
+</div>

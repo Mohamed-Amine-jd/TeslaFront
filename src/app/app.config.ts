@@ -18,8 +18,9 @@ function initKeycloak(keycloak: KeycloakService) {
         clientId: 'angular-app'
       },
       initOptions: {
-        onLoad: 'login-required',
-        checkLoginIframe: false
+        onLoad: 'check-sso',  // ← Pas de login forcé
+        checkLoginIframe: false,
+        token: localStorage.getItem('kc_token') || undefined
       }
     });
 }
