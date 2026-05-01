@@ -77,7 +77,13 @@ export class LoginComponent {
 
           localStorage.setItem('kc_token', response.token);
           this.successMessage.set('Connexion réussie ! Redirection...');
-          setTimeout(() => this.router.navigate(['/home']), 1500);
+         // On passe les données à la page de vérification
+      this.router.navigate(['/verify-otp'], { 
+        state: { 
+          matricule: response.matricule, 
+          email: response.email, 
+          phone: response.phone 
+        }});
 
         } else {
           this.errorMessage.set(response.error || 'Erreur inconnue');

@@ -156,4 +156,12 @@
 .success-box {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 10px;  
+  background: #0f2a0f;
+  border: 1px solid #2d5a2d;
+  border-radius: 8px;
+  padding: 12px 15px;
+  color: #90ee90;
+  margin-bottom: 15px;
+  font-size: 14px;
+}

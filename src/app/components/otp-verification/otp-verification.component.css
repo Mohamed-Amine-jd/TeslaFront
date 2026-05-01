@@ -1,0 +1,192 @@
+/* Container Principal */
+.verification-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 450px;
+  margin: 40px auto;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #171a20;
+}
+
+/* Header avec Logo */
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.close-icon {
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tesla-text {
+  font-weight: 700;
+  letter-spacing: 4px;
+  font-size: 1.2rem;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background-color: #d0d1d2;
+}
+
+.sub-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #393c41;
+}
+
+/* Corps de page */
+.content {
+  width: 100%;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.instruction {
+  color: #5c5e62;
+  font-size: 15px;
+  margin-bottom: 30px;
+}
+
+/* Grille des inputs OTP */
+.otp-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.otp-input {
+  width: 50px;
+  height: 60px;
+  border: 1px solid #d0d1d2;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  background-color: #f4f4f4;
+  transition: all 0.2s ease;
+}
+
+.otp-input:focus {
+  outline: none;
+  border: 2px solid #3e6ae1; /* Bleu Tesla focus */
+  background-color: #ffffff;
+}
+
+.resend {
+  text-align: center;
+  font-size: 14px;
+  color: #5c5e62;
+  margin-bottom: 40px;
+}
+
+.resend strong {
+  color: #171a20;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Options d'envoi (Email / SMS) */
+.section-title {
+  font-size: 14px;
+  color: #5c5e62;
+  margin-bottom: 15px;
+}
+
+.option-card {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: #f4f4f4;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: transform 0.1s, border 0.2s;
+  border: 2px solid transparent;
+}
+
+.option-card:hover {
+  transform: translateY(-2px);
+}
+
+.option-card.active {
+  background-color: #ffffff;
+  border-color: #171a20;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.icon {
+  font-size: 24px;
+  margin-right: 15px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.method-name {
+  font-weight: 600;
+  color: #e2231a; /* Rouge pour le label comme sur l'image */
+  font-size: 14px;
+}
+
+.method-val {
+  font-size: 16px;
+  color: #171a20;
+}
+
+/* Messages d'erreur */
+.error-msg {
+  color: #b7410e;
+  background-color: #fef5f0;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 15px 0;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Bouton de validation */
+.verify-btn {
+  width: 100%;
+  padding: 16px;
+  background-color: #171a20;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin-top: 30px;
+  text-transform: uppercase;
+}
+
+.verify-btn:disabled {
+  background-color: #d0d1d2;
+  cursor: not-allowed;
+}
+
+.verify-btn:hover:not(:disabled) {
+  background-color: #393c41;
+}

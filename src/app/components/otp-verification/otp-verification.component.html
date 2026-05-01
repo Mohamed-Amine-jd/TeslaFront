@@ -1,0 +1,59 @@
+<div class="verification-container">
+  <div class="header">
+    <a class="close-icon" routerLink="/login">✕</a>
+    <div class="brand">
+      <span class="tesla-text">TESLA</span>
+      <span class="divider"></span>
+      <span class="sub-text">Client Verification</span>
+    </div>
+  </div>
+
+  <div class="content">
+    <h1>Enter 6 Digit Code</h1>
+    <p class="instruction">Please enter the 6 digit code sent you</p>
+
+    <div class="otp-grid">
+      @for (box of otpCode(); track $index) {
+        <input 
+          [id]="'otp-' + $index"
+          type="text" 
+          maxlength="1" 
+          class="otp-input"
+          title="OTP digit"
+          placeholder="Enter digit"
+          (input)="onInput($event, $index)"
+        >
+      }
+    </div>
+
+    <p class="resend">Didn't receive the text? <strong>Resend Code</strong></p>
+
+    <div class="send-options">
+      <p class="section-title">Send code via</p>
+      
+      <div class="option-card" [class.active]="selectedMethod() === 'email'" (click)="sendOtp('email')">
+        <div class="icon">✉️</div>
+        <div class="info">
+          <span class="method-name">Email</span>
+          <span class="method-val">{{ maskedEmail() }}</span>
+        </div>
+      </div>
+
+      <div class="option-card" [class.active]="selectedMethod() === 'sms'" (click)="sendOtp('sms')">
+        <div class="icon">📞</div>
+        <div class="info">
+          <span class="method-name">SMS</span>
+          <span class="method-val">{{ maskedPhone() }}</span>
+        </div>
+      </div>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="error-msg">{{ errorMessage() }}</div>
+    }
+
+    <button class="verify-btn" (click)="verify()" [disabled]="isLoading()">
+      {{ isLoading() ? 'VERIFYING...' : 'VERIFY CODE' }}
+    </button>
+  </div>
+</div>
