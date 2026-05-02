@@ -1,0 +1,29 @@
+<div class="foreign-page">
+  <header class="fv-header">
+    <button class="back" (click)="cancel()">←</button>
+    <h1>Foreign TESLA Vehicle</h1>
+  </header>
+
+  <section class="imported">
+    <div class="import-label">Imported from screen 1</div>
+    <div class="import-box">
+      <div>License plate  <strong>{{ matricule }}</strong></div>
+      <div>VIN / Chassis  <strong>{{ chassis }}</strong></div>
+    </div>
+  </section>
+
+  <section class="form">
+    <label>Email address</label>
+    <input type="email" [(ngModel)]="email" placeholder="your@gmail.com" />
+
+    <label>Phone number</label>
+    <input type="text" [(ngModel)]="phone" placeholder="+216 XX XXX XXX" />
+
+    <div class="otp-note">An OTP code will be sent to verify your identity before proceeding.</div>
+
+    <div class="actions">
+      <button class="send" (click)="sendVerification()">SEND VERIFICATION</button>
+      <button class="cancel" (click)="cancel()">CANCEL</button>
+    </div>
+  </section>
+</div>

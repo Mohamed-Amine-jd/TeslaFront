@@ -1,167 +1,465 @@
-/* ===== Container principal ===== */
-.login-container {
-  min-height: 100vh;
-  background: #0a0a0a;
+/* ===== Page shell ===== */
+.login-page {
+  min-height: 100dvh;
+  background: #ffffff;
+  color: #111;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 env(safe-area-inset-bottom, 0);
+}
+
+/* ===== Header ===== */
+.login-header {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  padding: 12px 8px 8px;
+  flex-shrink: 0;
+}
+
+.btn-close {
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #111;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-close:hover  { background: #f0f0f0; }
+.btn-close:active { transform: scale(0.96); }
+.brand-center {
+  display: flex;
+  flex-direction: row; /* Aligne sur la même ligne */
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Espace entre le logo et le texte */
+  
+  width: 100%;
+  background: #ffffff;
+}
+
+/* Logo Tesla plus grand et sans ombre */
+.brand-logo-inline {
+  width: 210px; /* Taille augmentée */
+  height: 120px; /* Ajustée pour garder les proportions */
+  height: auto;
+  filter: none !important; /* Supprime toute ombre ou filtre */
+  display: block;
+}
+
+/* Texte CHARGE puissant sur la même ligne */
+.brand-charge-inline {
+  font-family: 'Inter', 'Arial Black', sans-serif;
+  font-size: 2.4rem; /* Taille imposante */
+ 
+  color: #000000;
+  letter-spacing: 6px; /* Espacement style luxe */
+  text-transform: uppercase;
+  line-height: 1;
+  
+  /* Optionnel : Ajuste légèrement la position verticale 
+     pour un alignement optique parfait avec le logo */
+  margin-top: 3px; 
+}
+
+/* Optimisation pour les écrans mobiles (évite que ça déborde) */
+@media (max-width: 480px) {
+  .brand-logo-inline {
+    width: 100px;
+  }
+  .brand-charge-inline {
+    font-size: 1.6rem;
+    letter-spacing: 4px;
+  }
+ 
+}
+
+
+/* ===== Main ===== */
+.login-main {
+  flex: 1;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 8px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.screen-title {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #111;
+  margin: 12px 0 6px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.screen-subtitle {
+  margin: 0 0 20px;
+  font-size: 0.95rem;
+  color: #8a8a8a;
+  font-weight: 400;
+}
+
+/* ===== Segmented control ===== */
+.segmented {
+  display: flex;
+  background: #3d3d3d;
+  border-radius: 14px;
+  padding: 4px;
+  gap: 2px;
+  margin-bottom: 20px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.12);
+}
+
+.segment {
+  flex: 1;
+  min-height: 52px;
+  border: none;
+  border-radius: 11px;
+  background: transparent;
+  color: rgba(255,255,255,0.88);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: default;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  gap: 2px;
+  padding: 6px 4px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.segment--active {
+  background: #5c5c5c;
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.segment-icon {
+  line-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.segment-text {
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+}
+
+.segment:not(.segment--active):hover {
+  background: rgba(255,255,255,0.06);
+}
+
+/* ===== Fields panel ===== */
+.fields-panel {
+  background: #f3f3f4;
+  border-radius: 16px;
+  padding: 18px 16px;
+  margin-bottom: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.field:last-child { margin-bottom: 0; }
+
+.field label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.field input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  font-size: 1rem;
+  border: 1px solid #e0e0e2;
+  border-radius: 12px;
+  background: #fff;
+  color: #111;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field input::placeholder { color: #b0b0b4; }
+
+.field input:focus {
+  outline: none;
+  border-color: #0d8f5f;
+  box-shadow: 0 0 0 3px rgba(13,143,95,0.12);
+}
+
+/* ===== Plaque tunisienne réaliste ===== */
+/* ===== Plaque Tunisienne Full Black & White ===== */
+.plate-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  background: transparent; /* Assure que l'extérieur reste propre */
+}
+
+.plate-tn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000 !important; /* Force le noir total */
+  width: 100%;
+  max-width: 360px;
+  height: 72px;
+  
+  /* Bordure blanche fine comme sur la photo */
+  border: 2px solid #ffffff; 
+  border-radius: 8px;
+  
+  /* Effet de relief pour simuler la plaque en métal */
+  box-shadow: 
+    inset 0 0 5px rgba(255,255,255,0.1),
+    0 4px 8px rgba(0,0,0,0.4);
+  
+  overflow: hidden;
+  position: relative;
+}
+
+.plate-input {
+  /* Supprime TOUT le style par défaut de l'input */
+  background-color: transparent !important; 
+  background: none !important;
+  -webkit-appearance: none;
+  
+  color: #ffffff !important; /* Chiffres blancs */
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  
+  /* Typographie style plaque minéralogique */
+  font-family: 'Arial Black', sans-serif;
+  font-size: 36px;
+  font-weight: 900;
+  text-align: center;
+  width: 35%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  letter-spacing: 2px;
+  
+  caret-color: #ffffff; /* Curseur blanc */
+}
+
+/* Style spécifique pour le texte arabe au centre */
+.plate-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  height: 100%;
+  background-color: #000000 !important;
+  pointer-events: none; /* L'utilisateur ne clique pas dessus */
+}
+
+.plate-arabic {
+  color: #ffffff !important;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1;
   font-family: 'Arial', sans-serif;
 }
 
-/* ===== Header Tesla ===== */
-.tesla-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.tesla-logo {
-  color: white;
-  font-size: 52px;
-  font-weight: bold;
-  letter-spacing: 10px;
-  margin: 0;
-}
-
-.tesla-subtitle {
-  color: #888;
-  font-size: 14px;
-  margin-top: 8px;
+.plate-tun-label {
+  color: rgba(255,255,255,0.7) !important;
+  font-size: 10px;
+  font-weight: 600;
   letter-spacing: 2px;
+  margin-top: 2px;
 }
 
-/* ===== Card ===== */
-.login-card {
-  background: #1a1a1a;
-  border-radius: 16px;
-  padding: 40px;
+/* Supprime le fond gris/jaune de l'autocomplétion Chrome */
+.plate-input:-webkit-autofill,
+.plate-input:-webkit-autofill:hover, 
+.plate-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff;
+  -webkit-box-shadow: 0 0 0px 1000px #000000 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+/* ===== Action tiles ===== */
+.action-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.tile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
   width: 100%;
-  max-width: 500px;
-  color: white;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-.login-card h2 {
-  text-align: center;
-  margin-bottom: 10px;
-  font-size: 22px;
-}
-
-.description {
-  color: #888;
-  text-align: center;
-  font-size: 14px;
-  margin-bottom: 25px;
-  line-height: 1.5;
-}
-
-/* ===== Zone Upload ===== */
-.upload-zone {
-  border: 2px dashed #333;
-  border-radius: 12px;
-  padding: 40px 20px;
-  text-align: center;
+  text-align: left;
+  padding: 16px 18px;
+  border: none;
+  border-radius: 16px;
+  background: #f3f3f4;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-bottom: 20px;
-  min-height: 180px;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.tile:hover  { background: #ebebed; }
+.tile:active { transform: scale(0.99); }
+
+.tile-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 12px;
 }
 
-.upload-zone:hover {
-  border-color: #e82127;
-  background: rgba(232, 33, 39, 0.05);
+.tile-icon--scan {
+  color: #0d8f5f;
+  background: rgba(13,143,95,0.1);
 }
 
-.upload-zone.drag-over {
-  border-color: #e82127;
-  background: rgba(232, 33, 39, 0.1);
-  transform: scale(1.02);
+.tile-icon--plus {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #fff;
+  background: #0d8f5f;
+  border-radius: 50%;
+  line-height: 1;
 }
 
-.upload-zone.has-image {
-  border-color: #2d5a2d;
-  padding: 10px;
+.tile-text {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #111;
+  line-height: 1.35;
 }
 
-.upload-placeholder {
+/* ===== Preview ===== */
+.preview-card {
+  position: relative;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f3f3f4;
+}
+
+.preview-img {
+  display: block;
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 14px;
+  border: 1px solid #e5e5e7;
+}
+
+.preview-loading {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.upload-icon {
-  font-size: 52px;
-  margin-bottom: 12px;
-}
-
-.upload-placeholder p {
-  color: #ccc;
-  margin: 5px 0;
-  font-size: 15px;
-}
-
-.upload-placeholder span {
-  color: #666;
-  font-size: 12px;
-  margin-top: 5px;
-}
-
-.preview-image {
-  max-width: 100%;
-  max-height: 220px;
-  border-radius: 8px;
-  object-fit: contain;
-}
-
-/* ===== Données extraites ===== */
-.extracted-info {
-  background: #0f2a0f;
-  border: 1px solid #2d5a2d;
-  border-radius: 8px;
-  padding: 15px 20px;
-  margin-bottom: 15px;
-}
-
-.extracted-info p {
-  margin: 6px 0;
-  color: #90ee90;
-  font-size: 14px;
-}
-
-.extracted-info strong {
-  color: #ffffff;
-  font-size: 15px;
-}
-
-/* ===== Messages ===== */
-.error-box {
-  display: flex;
-  align-items: center;
+  justify-content: center;
   gap: 10px;
-  background: #2a0f0f;
-  border: 1px solid #5a2d2d;
-  border-radius: 8px;
-  padding: 12px 15px;
-  color: #ff6b6b;
-  margin-bottom: 15px;
-  font-size: 14px;
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  font-size: 0.9rem;
+  border-radius: 14px;
 }
 
-.error-box p { margin: 0; }
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(255,255,255,0.25);
+  border-top-color: #7dffb3;
+  border-radius: 50%;
+  animation: spin 0.85s linear infinite;
+}
 
-.success-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;  
-  background: #0f2a0f;
-  border: 1px solid #2d5a2d;
-  border-radius: 8px;
-  padding: 12px 15px;
-  color: #90ee90;
-  margin-bottom: 15px;
-  font-size: 14px;
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== Banners ===== */
+.extracted-banner {
+  background: #e8f7f0;
+  border: 1px solid #9dd9bc;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  font-size: 0.88rem;
+  color: #1a4d36;
+}
+
+.extracted-banner p     { margin: 6px 0; }
+.extracted-banner .check {
+  color: #0d8f5f;
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.banner {
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 0.88rem;
+  margin-bottom: 10px;
+  line-height: 1.45;
+}
+
+.banner--error {
+  background: #fff0f0;
+  border: 1px solid #f0b4b4;
+  color: #a32020;
+}
+
+.banner--success {
+  background: #e8f7f0;
+  border: 1px solid #9dd9bc;
+  color: #1a4d36;
+}
+
+/* ===== Sign in ===== */
+.bottom-bar {
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.btn-signin {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: #111;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+
+.btn-signin:hover  { background: #2a2a2a; }
+.btn-signin:active { transform: scale(0.99); }
+
+@media (min-width: 520px) {
+  .login-main   { padding-top: 16px; }
+  .screen-title { font-size: 1.85rem; }
 }

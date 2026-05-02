@@ -1,0 +1,62 @@
+<div class="charging-page">
+  <section class="hero">
+    <p class="eyebrow">Tesla Network</p>
+     <h1>Tesla Charging Stations Map</h1>
+     <p class="subtitle">Fast charging stations in Tunisia, visible in real-time with dark mode interface.</p>
+  </section>
+
+  <section class="stats-row">
+    <div class="stat-card primary">
+      <span class="label">Available Slots</span>
+      <span class="value">{{ availableTotal }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="label">Tracked Stations</span>
+      <span class="value">{{ stations.length }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="label">Active Reservation</span>
+      <span class="value">{{ activeReservation ? activeReservation.stationName : 'None' }}</span>
+    </div>
+  </section>
+
+  @if (activeReservation) {
+    <div class="reservation-banner" (click)="focusOnReservedStation()">
+      <span class="banner-icon">📍</span>
+      <div class="banner-content">
+        <span class="banner-label">Active Reservation</span>
+        <span class="banner-station">{{ activeReservation.stationName }}</span>
+      </div>
+      <span class="banner-arrow">→</span>
+    </div>
+  }
+
+  <section class="layout">
+    <aside class="station-list">
+      <div class="panel-header">
+          <h2>Nearby Stations</h2>
+        <span>{{ nearbyStations.length }}</span>
+      </div>
+
+      @if (loading) {
+          <div class="loading-state">Loading stations...</div>
+      } @else {
+        @for (station of nearbyStations; track station.name) {
+          <article class="station-card" (click)="focusStation(station)">
+            <div class="station-title">
+              <h3>{{ station.name }}</h3>
+              <span>{{ station.distanceKm }} km</span>
+            </div>
+              <p>{{ station.availableSlots }}/{{ station.totalSlots }} slots available</p>
+            <p>{{ station.power }} kW</p>
+              <button class="go-btn" (click)="$event.stopPropagation(); goToStation(station)">Directions</button>
+          </article>
+        }
+      }
+    </aside>
+
+    <div class="map-shell">
+      <div #mapContainer class="map-container"></div>
+    </div>
+  </section>
+</div>

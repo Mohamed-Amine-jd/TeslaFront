@@ -1,18 +1,28 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CarteGriseAuthService } from '../../services/carte-grise-auth.service';
+
+/** Router.navigate(..., { state }) is readable here after navigation completes */
+type OtpNavState = {
+  matricule?: string;
+  chassis?: string;
+  email?: string;
+  phone?: string;
+  navigationId?: number;
+};
 
 @Component({
   selector: 'app-otp-verification',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './otp-verification.component.html',
   styleUrl: './otp-verification.component.css'
 })
 export class OtpVerificationComponent implements OnInit {
   
   matricule = signal<string>('');
+  chassis = signal<string>('');
   maskedEmail = signal<string>('');
   maskedPhone = signal<string>('');
   selectedMethod = signal<'email' | 'sms' | null>(null);
@@ -23,22 +33,19 @@ export class OtpVerificationComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: CarteGriseAuthService
-  ) {
-    // Récupération des données passées par le login
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state as { matricule: string, email: string, phone: string };
-    
-    if (state) {
-      this.matricule.set(state.matricule);
-      this.maskedEmail.set(state.email);
-      this.maskedPhone.set(state.phone);
-    } else {
-      // Si on arrive ici sans données (refresh page), retour au login
-      this.router.navigate(['/login']);
-    }
-  }
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    const state = history.state as OtpNavState;
+    if (!state?.matricule) {
+      void this.router.navigate(['/login']);
+      return;
+    }
+    this.matricule.set(state.matricule);
+    if (state.chassis) this.chassis.set(state.chassis);
+    if (state.email) this.maskedEmail.set(state.email);
+    if (state.phone) this.maskedPhone.set(state.phone);
+  }
 
   sendOtp(method: 'email' | 'sms') {
     this.selectedMethod.set(method);
@@ -62,13 +69,17 @@ export class OtpVerificationComponent implements OnInit {
     if (fullCode.length < 6) return;
 
     this.isLoading.set(true);
-    this.authService.verifyOtp(this.matricule(), fullCode).subscribe({
+    this.authService.verifyOtp(this.matricule(), fullCode, this.chassis() || undefined).subscribe({
       next: (res) => {
-        // Transfert du token temporaire vers le token final
-        const tempToken = localStorage.getItem('temp_token');
-        if (tempToken) localStorage.setItem('kc_token', tempToken);
-        
-        this.router.navigate(['/home']);
+        if (res?.token) {
+          localStorage.setItem('kc_token', res.token);
+        } else {
+          const tempToken = localStorage.getItem('temp_token');
+          if (tempToken) {
+            localStorage.setItem('kc_token', tempToken);
+          }
+        }
+        this.router.navigateByUrl('/charging-map', { replaceUrl: true });
       },
       error: () => {
         this.isLoading.set(false);

@@ -1,27 +1,60 @@
-<div class="hero-container">
-  <nav class="navbar">
-    <div class="logo">TESLA</div>
-    <ul class="nav-links">
-      <li><a href="#">Model S</a></li>
-      <li><a href="#">Model 3</a></li>
-      <li><a href="#">Model X</a></li>
-      <li><a href="#">Model Y</a></li>
-    </ul>
-  </nav>
+<div id="particles-js"></div>
 
-  <video
-    #bgVideo
-    [src]="videos[currentVideoIndex]"
-    [class.fade-out]="isFading"
-    (ended)="onVideoEnded()"
-    autoplay
-    muted
-    playsinline
-    class="bg-video">
-  </video>
+<ul class="cb-slideshow">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
 
-  <div class="overlay-text">
-    <h1>Experience the Future</h1>
-    <p>Seamless power. Sustainable energy.</p>
-  </div>
+<div class="container-fluid">
+    <div class="row cb-slideshow-text-container">
+        <div class="tm-content col-xl-6 col-sm-8 col-xs-8 ml-auto section">
+            <header class="mb-5">
+                <h1>Letter</h1>
+            </header>
+            <p class="mb-5">A sign-up letter template with three background images shuffling by fade in out movements. Thank you for visiting our site!</p>
+            
+            <form (ngSubmit)="onSubmit()" class="subscribe-form">
+                <div class="row form-section">
+                    <div class="col-md-7 col-sm-7 col-xs-7">
+                        <input 
+                           
+                            name="email" 
+                            type="email" 
+                            class="form-control" 
+                            id="contact_email" 
+                            placeholder="Your Email..." 
+                            required/>
+                    </div>
+                    <div class="col-md-5 col-sm-5 col-xs-5">
+                        <button type="submit" class="tm-btn-subscribe">
+                            {{ isSubmitted ? 'Merci !' : 'Subscribe' }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="tm-social-icons-container text-xs-center">
+                <button (click)="openSocialLink('facebook')" class="tm-social-link">
+                    <i class="fa fa-facebook"></i>
+                </button>
+                <button (click)="openSocialLink('google')" class="tm-social-link">
+                    <i class="fa fa-google-plus"></i>
+                </button>
+                <button (click)="openSocialLink('twitter')" class="tm-social-link">
+                    <i class="fa fa-twitter"></i>
+                </button>
+                <button (click)="openSocialLink('linkedin')" class="tm-social-link">
+                    <i class="fa fa-linkedin"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-link">
+        <p>Copyright © 2024 Your Company - Design: Angular Template</p>
+    </div>
 </div>

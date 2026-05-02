@@ -1,91 +1,100 @@
-<div class="login-container">
+<div class="login-page">
+  <header class="login-header">
+    <button type="button" class="btn-close" (click)="reset()" aria-label="Clear form"></button>
+    <span class="header-spacer" aria-hidden="true"></span>
+  </header>
 
-  <!-- Header Tesla -->
-  <div class="tesla-header">
-    <h1 class="tesla-logo">TESLA</h1>
-    <p class="tesla-subtitle">Accès propriétaire par carte grise</p>
-  </div>
-
-  <!-- Card principale -->
-  <div class="login-card">
-    <h2>🔑 Connexion</h2>
-    <p class="description">
-      Scannez votre carte grise pour vous connecter automatiquement
-    </p>
-
-    <!-- Zone upload -->
-    <div
-      class="upload-zone"
-      [class.drag-over]="isDragOver()"
-      [class.has-image]="previewUrl()"
-      (dragover)="onDragOver($event)"
-      (dragleave)="onDragLeave()"
-      (drop)="onDrop($event)"
-      (click)="fileInput.click()"
-    >
-      @if (!previewUrl()) {
-        <div class="upload-placeholder">
-          <div class="upload-icon">📄</div>
-          <p>Glissez votre carte grise ici</p>
-          <span>ou cliquez pour sélectionner (PNG, JPG, max 10MB)</span>
-        </div>
-      } @else {
-        <img [src]="previewUrl()" alt="Carte grise" class="preview-image"/>
-      }
+  <main class="login-main">
+    <div class="brand-center">
+      <img src="https://i.ebayimg.com/images/g/bfUAAOSw88RbDbfe/s-l1200.jpg" alt="Tesla" class="brand-logo-inline" />
+      <span class="brand-charge-inline">CHARGE</span>
     </div>
 
-    <input
-      #fileInput
-      type="file"
-      accept="image/*"
-      hidden
-      (change)="onFileSelected($event)"
-    />
-
-    <!-- Données extraites -->
-    @if (extractedData()) {
-      <div class="extracted-info">
-        <p>🔢 Matricule : <strong>{{ extractedData()!.matricule }}</strong></p>
-        <p>🔩 Châssis   : <strong>{{ extractedData()!.chassis }}</strong></p>
-      </div>
-    }
-
-    <!-- Erreur -->
-    @if (errorMessage()) {
-      <div class="error-box">
-        <span>⚠️</span>
-        <p>{{ errorMessage() }}</p>
-      </div>
-    }
-
-    <!-- Succès -->
-    @if (successMessage()) {
-      <div class="success-box">
-        <span>✅</span>
-        <p>{{ successMessage() }}</p>
-      </div>
-    }
-
-    <!-- Boutons -->
-    <div class="actions">
-      @if (selectedFile()) {
-        <button class="btn-reset" (click)="reset()">
-          🔄 Nouvelle image
-        </button>
-      }
-      <button
-        class="btn-login"
-        [disabled]="!selectedFile() || isLoading()"
-        (click)="login()"
-      >
-        @if (isLoading()) {
-          <span class="spinner"></span>
-          Analyse en cours...
-        } @else {
-          🚗 Se connecter avec ma carte grise
-        }
+    <!-- Segmented Control -->
+    <div class="segmented" role="group">
+      <button type="button" class="segment" [class.segment--active]="selectedType() === 'TUN'" (click)="selectType('TUN')">
+        TUN
+      </button>
+      <button type="button" class="segment" [class.segment--active]="selectedType() === 'RS'" (click)="selectType('RS')">
+        <span class="segment-text">RS</span>
+      </button>
+      <button type="button" class="segment" [class.segment--active]="selectedType() === 'GOV'" (click)="selectType('GOV')">
+        <span class="segment-text">GOV</span>
+      </button>
+      <button type="button" class="segment" [class.segment--active]="selectedType() === 'INT'" (click)="selectType('INT')">
+        <span class="segment-text">INT</span>
       </button>
     </div>
 
-  </div>
+    <div class="fields-panel">
+      <!-- License Plate Field -->
+      <div class="field">
+        <label>License plate number</label>
+
+        <!-- Condition: Tunisian Plate -->
+        <div class="plate-container" *ngIf="selectedType() === 'TUN'">
+          <div class="plate-tn">
+            <input class="plate-input plate-left" type="text" [(ngModel)]="plateLeft" placeholder="234" maxlength="4" inputmode="numeric" />
+            <div class="plate-center">
+              <span class="plate-arabic">تونس</span>
+              <span class="plate-tun-label">TUN</span>
+            </div>
+            <input class="plate-input plate-right" type="text" [(ngModel)]="plateRight" placeholder="1452" maxlength="4" inputmode="numeric" />
+          </div>
+        </div>
+
+        <!-- Condition: Other Plates (RS, GOV, INT) -->
+        <input *ngIf="selectedType() !== 'TUN'" 
+               type="text" 
+               class="generic-input" 
+               [(ngModel)]="manualMatricule" 
+               [placeholder]="'Enter ' + selectedType() + ' plate number'" />
+      </div>
+
+      <!-- Chassis -->
+      <div class="field">
+        <label for="chassis-input">Chassis number (VIN)</label>
+        <input id="chassis-input" type="text" [(ngModel)]="manualChassis" placeholder="5YJ3E1EAXNF000001" autocomplete="off" />
+      </div>
+    </div>
+
+    <!-- Action Cards (Visible only for TUN) -->
+    <div class="action-cards" *ngIf="selectedType() === 'TUN'">
+      <button type="button" class="tile tile-scan" (click)="fileInput.click()">
+        <span class="tile-icon tile-icon--scan">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M4 7V5a2 2 0 012-2h2M16 3h2a2 2 0 012 2v2M20 17v2a2 2 0 01-2 2h-2M8 21H6a2 2 0 01-2-2v-2" stroke-linecap="round" />
+            <rect x="7" y="7" width="10" height="10" rx="1.5" />
+            <path d="M10 11h4M10 13h4" stroke-linecap="round" />
+          </svg>
+        </span>
+        <span class="tile-text">Scan Vehicle Registration Card</span>
+      </button>
+   <button 
+  type="button" 
+  class="tile tile-foreign"
+  (click)="goToForeignVehicle()">
+
+  <span class="tile-icon tile-icon--plus">+</span>
+  <span class="tile-text">Foreign Tesla Vehicle</span>
+</button>
+    </div>
+
+    <input #fileInput type="file" accept="image/*" hidden (change)="onFileSelected($event)" />
+
+    <!-- Preview -->
+    <div *ngIf="previewUrl() && selectedType() === 'TUN'" class="preview-card">
+      <img [src]="previewUrl()" alt="Preview" class="preview-img" />
+      <div *ngIf="isLoading()" class="preview-loading">
+        <div class="spinner"></div>
+        <span>Scanning…</span>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage()" class="banner banner--error">{{ errorMessage() }}</div>
+
+    <div class="bottom-bar">
+      <button type="button" class="btn-signin" (click)="loginManual()">SIGN IN</button>
+    </div>
+  </main>
 </div>
